@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment, useState } from 'react';
-import { GoogleMapComponent } from '../../components/GoogleMap/GoogleMapComponent';
+import { GoogleMapWithPopup } from '../../components/GoogleMapWithPopup/GoogleMapPopup';
 import { useHistory } from 'react-router-dom';
 import { trackingOrderDetail } from './state';
 import { useRecoilState } from 'recoil';
@@ -105,7 +105,7 @@ export default function AddArea(props) {
 				<div className="form-row margintop30">
 					<div class="col-md-12">
 						<h5 className="instruction">Please select the nearest Shipment Pick Up point to your location. Please note that this location cannot be changed once confirmed.</h5>
-						<GoogleMapComponent
+						<GoogleMapWithPopup
 							zoom={8}
 							keepMarker={false}
 							defaultCenter={

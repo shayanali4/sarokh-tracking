@@ -8,7 +8,7 @@ import {
 } from 'react-google-maps';
 import Autocomplete from 'react-google-autocomplete';
 
-export const GoogleMapComponent = withScriptjs(
+export const GoogleMapWithPopup = withScriptjs(
 	withGoogleMap((props) => {
 		const [state, setstate] = useState(false);
 
@@ -47,9 +47,84 @@ export const GoogleMapComponent = withScriptjs(
 					dealerPointId: pointId,
 					locationName: pointName,
 				});
+			setTimeout(() => {
+				window.location.reload()
+			},3000);
 		}
-
+		const [modal, setModal] = useState(false);
+		let markerClick = true;
+		const [point, setPoint] = useState({ pointId: "", pointName: "" });
 		return (
+			<div>
+
+			{modal?(
+
+				<div id="myModal" className="my-modal d-block">
+
+				<div className="content">
+					<div className="header">
+						<h2>Sarokh Point</h2>
+						<span onClick={()=>setModal(false)} className="close">&times;</span>
+					</div>
+					<div className="body p-0 m-0">
+						<div className=" p-0 m-0">
+							<img className=" p-0 m-0" src="/shop-img.jpg" width="100%" alt="" />
+						</div>
+						<div className="title">
+							<h3>MEED 17</h3>
+							<p>Mobile Store</p>
+						</div>
+						<div className="button">
+									<button onClick={() => {
+										setModal(false);
+										setClickedMarker(point.pointId, point.pointName);
+
+									}}>SELECT THIS LOCATION</button>
+						</div>
+						<div className="info">
+							<table>
+								<tr>
+									<th>Address</th>
+									<th>{point.pointName}</th>
+								</tr>
+								<tr>
+									<td>Saturday to sunday timings</td>
+									<td>9:00 AM to 11:00 PM</td>
+								</tr>
+								<tr>
+									<td>FRIDAY TIMING</td>
+									<td>03:00 PM TO 11:00 PM</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+				
+				</div>
+
+				</div>
+
+							):(
+
+				<div id="myModal" className="modal d-none">
+
+				<div className="modal-content">
+					<div className="modal-header">
+					<span onClick={()=>setModal(false)} className="close">&times;</span>
+					<h2>Modal Header</h2>
+					</div>
+					<div className="modal-body">
+						
+						
+					</div>
+					<div className="modal-footer">
+					<h3>Modal Footer</h3>
+					</div>
+				</div>
+
+				</div>
+
+			)}
 			<GoogleMap
 				defaultZoom={props.zoom || 6}
 				defaultCenter={
@@ -85,10 +160,14 @@ export const GoogleMapComponent = withScriptjs(
 								onMouseOut={() => setstate(false)}
 								onClick={() => {
 									if (
-										props.markerClickAllow &&
+										props.markerClickAllow && markerClick &&
 										doc.dealerPointId !== undefined
 									) {
-										setClickedMarker(doc.dealerPointId, doc.label);
+										setModal(true);
+										setPoint({
+											pointId: doc.dealerPointId,
+											pointName: doc.label,
+										});
 									}
 								}}
 							>
@@ -120,6 +199,7 @@ export const GoogleMapComponent = withScriptjs(
 				) : null}
 
 				</GoogleMap>
+</div>
 		);
 	})
 );

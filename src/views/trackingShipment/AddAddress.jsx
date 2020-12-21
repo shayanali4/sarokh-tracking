@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { isEmpty } from 'underscore';
 import Loading from '../../components/Loading/Loading';
 import { useHistory } from 'react-router-dom';
-import { GoogleMapComponent } from '../../components/GoogleMap/GoogleMapComponent';
+import { GoogleMapWithPopup } from '../../components/GoogleMapWithPopup/GoogleMapPopup';
 import { updateDeliveryApi } from '../../Api/trackingApi';
 import { toast } from 'react-toastify';
 
@@ -78,7 +78,7 @@ export default function AddAdress(props) {
 				<div className="form-row margintop30">
 					<div class="col-md-12">
 						<h5>Select Last Mile</h5>
-						<GoogleMapComponent
+						<GoogleMapWithPopup
 							keepMarker={true}
 							defaultCenter={{
 								lat: parseFloat(response.location[0].latitude),
